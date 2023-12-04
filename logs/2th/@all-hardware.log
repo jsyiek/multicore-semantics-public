@@ -1,0 +1,1321 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/MP.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 MP
+"PodWW Rfe PodRR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rbx=0; uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq (y),%rax ;
+ movq $1,(y) | movq (x),%rbx ;
+
+exists (1:rax=1 /\ 1:rbx=0)
+Generated assembler
+#START _litmus_P1
+	movq (%r10,%rsi),%rax
+	movq (%r9,%rsi),%rcx
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test MP Allowed
+Histogram (3 states)
+4999814:>1:rax=0; 1:rbx=0;
+13761 :>1:rax=0; 1:rbx=1;
+4986425:>1:rax=1; 1:rbx=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (1:rax=1 /\ 1:rbx=0) is NOT validated
+Hash=85b3bbe7644055587f60c29f179db901
+Cycle=Rfe PodRR Fre PodWW
+Relax MP No 
+Safe=Rfe Fre PodWW PodRR
+Generator=diy7 (version 7.56+03)
+Com=Rf Fr
+Orig=PodWW Rfe PodRR Fre
+Observation MP Never 0 10000000
+Time MP 1.83
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/MP+po+mfence.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 MP+po+mfence
+"PodWW Rfe MFencedRR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rbx=0; uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq (y),%rax ;
+ movq $1,(y) | mfence        ;
+             | movq (x),%rbx ;
+
+exists (1:rax=1 /\ 1:rbx=0)
+Generated assembler
+#START _litmus_P1
+	movq (%r10,%rsi),%rax
+	mfence
+	movq (%r9,%rsi),%rcx
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test MP+po+mfence Allowed
+Histogram (3 states)
+4987584:>1:rax=0; 1:rbx=0;
+15251 :>1:rax=0; 1:rbx=1;
+4997165:>1:rax=1; 1:rbx=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (1:rax=1 /\ 1:rbx=0) is NOT validated
+Hash=f73b1e137d2ab709bee700709612916c
+Cycle=Rfe MFencedRR Fre PodWW
+Relax MP+po+mfence No 
+Safe=Rfe Fre PodWW MFencedRR
+Generator=diy7 (version 7.56+03)
+Com=Rf Fr
+Orig=PodWW Rfe MFencedRR Fre
+Observation MP+po+mfence Never 0 10000000
+Time MP+po+mfence 2.13
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/S.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 S
+"PodWW Rfe PodRW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $2,(x) | movq (y),%rax ;
+ movq $1,(y) | movq $1,(x)   ;
+
+exists ([x]=2 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test S Allowed
+Histogram (3 states)
+7435  :>1:rax=0; [x]=1;
+4993350:>1:rax=1; [x]=1;
+4999215:>1:rax=0; [x]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ 1:rax=1) is NOT validated
+Hash=1c50f4e5b4c27189faa27b138a5db1c1
+Cycle=Rfe PodRW Coe PodWW
+Relax S No 
+Safe=Rfe Coe PodWW PodRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Co
+Orig=PodWW Rfe PodRW Coe
+Observation S Never 0 10000000
+Time S 1.87
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/S+po+mfence.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 S+po+mfence
+"PodWW Rfe MFencedRW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $2,(x) | movq (y),%rax ;
+ movq $1,(y) | mfence        ;
+             | movq $1,(x)   ;
+
+exists ([x]=2 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	mfence
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test S+po+mfence Allowed
+Histogram (3 states)
+36210 :>1:rax=0; [x]=1;
+4996103:>1:rax=1; [x]=1;
+4967687:>1:rax=0; [x]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ 1:rax=1) is NOT validated
+Hash=4bc383ea322bd0a8d618c9665f7a4d16
+Cycle=Rfe MFencedRW Coe PodWW
+Relax S+po+mfence No 
+Safe=Rfe Coe PodWW MFencedRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Co
+Orig=PodWW Rfe MFencedRW Coe
+Observation S+po+mfence Never 0 10000000
+Time S+po+mfence 2.01
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/LB.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 LB
+"PodRW Rfe PodRW Rfe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq (x),%rax | movq (y),%rax ;
+ movq $1,(y)   | movq $1,(x)   ;
+
+exists (0:rax=1 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq (%rdi,%rcx),%rax
+	movq $1,(%r8,%rcx)
+
+Test LB Allowed
+Histogram (3 states)
+5423  :>0:rax=0; 1:rax=0;
+4997435:>0:rax=1; 1:rax=0;
+4997142:>0:rax=0; 1:rax=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (0:rax=1 /\ 1:rax=1) is NOT validated
+Hash=0efa418588af9f8fd32b7888161dac3d
+Cycle=Rfe PodRW Rfe PodRW
+Relax LB No 
+Safe=Rfe PodRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Rf
+Orig=PodRW Rfe PodRW Rfe
+Observation LB Never 0 10000000
+Time LB 1.91
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/LB+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 LB+mfence+po
+"MFencedRW Rfe PodRW Rfe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq (x),%rax | movq (y),%rax ;
+ mfence        | movq $1,(x)   ;
+ movq $1,(y)   |               ;
+
+exists (0:rax=1 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq (%rdi,%rcx),%rax
+	mfence
+	movq $1,(%r8,%rcx)
+
+Test LB+mfence+po Allowed
+Histogram (3 states)
+40371 :>0:rax=0; 1:rax=0;
+4999222:>0:rax=1; 1:rax=0;
+4960407:>0:rax=0; 1:rax=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (0:rax=1 /\ 1:rax=1) is NOT validated
+Hash=6d75d9f6162b12d7df31712b2fe4a458
+Cycle=Rfe PodRW Rfe MFencedRW
+Relax LB+mfence+po No 
+Safe=Rfe PodRW MFencedRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Rf
+Orig=MFencedRW Rfe PodRW Rfe
+Observation LB+mfence+po Never 0 10000000
+Time LB+mfence+po 2.08
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/MP+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 MP+mfence+po
+"MFencedWW Rfe PodRR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rbx=0; uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq (y),%rax ;
+ mfence      | movq (x),%rbx ;
+ movq $1,(y) |               ;
+
+exists (1:rax=1 /\ 1:rbx=0)
+Generated assembler
+#START _litmus_P1
+	movq (%r10,%rsi),%rax
+	movq (%r9,%rsi),%rcx
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test MP+mfence+po Allowed
+Histogram (3 states)
+5011756:>1:rax=0; 1:rbx=0;
+101811:>1:rax=0; 1:rbx=1;
+4886433:>1:rax=1; 1:rbx=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (1:rax=1 /\ 1:rbx=0) is NOT validated
+Hash=805c9a5a74bb4704a63093affe7857dc
+Cycle=Rfe PodRR Fre MFencedWW
+Relax MP+mfence+po No 
+Safe=Rfe Fre PodRR MFencedWW
+Generator=diy7 (version 7.56+03)
+Com=Rf Fr
+Orig=MFencedWW Rfe PodRR Fre
+Observation MP+mfence+po Never 0 10000000
+Time MP+mfence+po 2.02
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/MP+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 MP+mfences
+"MFencedWW Rfe MFencedRR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rbx=0; uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq (y),%rax ;
+ mfence      | mfence        ;
+ movq $1,(y) | movq (x),%rbx ;
+
+exists (1:rax=1 /\ 1:rbx=0)
+Generated assembler
+#START _litmus_P1
+	movq (%r10,%rsi),%rax
+	mfence
+	movq (%r9,%rsi),%rcx
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test MP+mfences Allowed
+Histogram (3 states)
+4996846:>1:rax=0; 1:rbx=0;
+49678 :>1:rax=0; 1:rbx=1;
+4953476:>1:rax=1; 1:rbx=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (1:rax=1 /\ 1:rbx=0) is NOT validated
+Hash=b2bc6712faaaaf6f68d7d331b7de13e3
+Cycle=Rfe MFencedRR Fre MFencedWW
+Relax MP+mfences No 
+Safe=Rfe Fre MFencedWW MFencedRR
+Generator=diy7 (version 7.56+03)
+Com=Rf Fr
+Orig=MFencedWW Rfe MFencedRR Fre
+Observation MP+mfences Never 0 10000000
+Time MP+mfences 2.30
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/S+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 S+mfence+po
+"MFencedWW Rfe PodRW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $2,(x) | movq (y),%rax ;
+ mfence      | movq $1,(x)   ;
+ movq $1,(y) |               ;
+
+exists ([x]=2 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test S+mfence+po Allowed
+Histogram (3 states)
+106956:>1:rax=0; [x]=1;
+4888376:>1:rax=1; [x]=1;
+5004668:>1:rax=0; [x]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ 1:rax=1) is NOT validated
+Hash=4a1bd05bacd36cbd2977dbf455fe3c42
+Cycle=Rfe PodRW Coe MFencedWW
+Relax S+mfence+po No 
+Safe=Rfe Coe PodRW MFencedWW
+Generator=diy7 (version 7.56+03)
+Com=Rf Co
+Orig=MFencedWW Rfe PodRW Coe
+Observation S+mfence+po Never 0 10000000
+Time S+mfence+po 2.10
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/S+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 S+mfences
+"MFencedWW Rfe MFencedRW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $2,(x) | movq (y),%rax ;
+ mfence      | mfence        ;
+ movq $1,(y) | movq $1,(x)   ;
+
+exists ([x]=2 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	mfence
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test S+mfences Allowed
+Histogram (3 states)
+54710 :>1:rax=0; [x]=1;
+4963097:>1:rax=1; [x]=1;
+4982193:>1:rax=0; [x]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ 1:rax=1) is NOT validated
+Hash=6236813024bb1b64783178c7dfd1daca
+Cycle=Rfe MFencedRW Coe MFencedWW
+Relax S+mfences No 
+Safe=Rfe Coe MFencedWW MFencedRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Co
+Orig=MFencedWW Rfe MFencedRW Coe
+Observation S+mfences Never 0 10000000
+Time S+mfences 2.44
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/LB+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 LB+mfences
+"MFencedRW Rfe MFencedRW Rfe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq (x),%rax | movq (y),%rax ;
+ mfence        | mfence        ;
+ movq $1,(y)   | movq $1,(x)   ;
+
+exists (0:rax=1 /\ 1:rax=1)
+Generated assembler
+#START _litmus_P1
+	movq (%r8,%rcx),%rax
+	mfence
+	movq $1,(%rdi,%rcx)
+#START _litmus_P0
+	movq (%rdi,%rcx),%rax
+	mfence
+	movq $1,(%r8,%rcx)
+
+Test LB+mfences Allowed
+Histogram (3 states)
+35492 :>0:rax=0; 1:rax=0;
+4981900:>0:rax=1; 1:rax=0;
+4982608:>0:rax=0; 1:rax=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (0:rax=1 /\ 1:rax=1) is NOT validated
+Hash=9b8f78e01350a22506a298b32c897a75
+Cycle=Rfe MFencedRW Rfe MFencedRW
+Relax LB+mfences No 
+Safe=Rfe MFencedRW
+Generator=diy7 (version 7.56+03)
+Com=Rf Rf
+Orig=MFencedRW Rfe MFencedRW Rfe
+Observation LB+mfences Never 0 10000000
+Time LB+mfences 2.35
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/SB.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 SB
+"PodWR Fre PodWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq $1,(x)   | movq $1,(y)   ;
+ movq (y),%rax | movq (x),%rax ;
+
+exists (0:rax=0 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $1,(%r8,%rcx)
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rdi,%rcx)
+	movq (%r8,%rcx),%rax
+
+Test SB Allowed
+Histogram (4 states)
+1898  *>0:rax=0; 1:rax=0;
+4999015:>0:rax=1; 1:rax=0;
+4999007:>0:rax=0; 1:rax=1;
+80    :>0:rax=1; 1:rax=1;
+Ok
+
+Witnesses
+Positive: 1898, Negative: 9998102
+Condition exists (0:rax=0 /\ 1:rax=0) is validated
+Hash=ac0b1f983ea53dfb4bc1a5cf3e493028
+Cycle=Fre PodWR Fre PodWR
+Relax SB Ok 
+Safe=Fre PodWR
+Generator=diy7 (version 7.56+03)
+Com=Fr Fr
+Orig=PodWR Fre PodWR Fre
+Observation SB Sometimes 1898 9998102
+Time SB 1.89
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/SB+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 SB+mfence+po
+"MFencedWR Fre PodWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq $1,(x)   | movq $1,(y)   ;
+ mfence        | movq (x),%rax ;
+ movq (y),%rax |               ;
+
+exists (0:rax=0 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $1,(%r8,%rcx)
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rdi,%rcx)
+	mfence
+	movq (%r8,%rcx),%rax
+
+Test SB+mfence+po Allowed
+Histogram (4 states)
+105   *>0:rax=0; 1:rax=0;
+5001740:>0:rax=1; 1:rax=0;
+4906953:>0:rax=0; 1:rax=1;
+91202 :>0:rax=1; 1:rax=1;
+Ok
+
+Witnesses
+Positive: 105, Negative: 9999895
+Condition exists (0:rax=0 /\ 1:rax=0) is validated
+Hash=80ce983ad5efe80390eaeef9faf09298
+Cycle=Fre PodWR Fre MFencedWR
+Relax SB+mfence+po Ok 
+Safe=Fre PodWR MFencedWR
+Generator=diy7 (version 7.56+03)
+Com=Fr Fr
+Orig=MFencedWR Fre PodWR Fre
+Observation SB+mfence+po Sometimes 105 9999895
+Time SB+mfence+po 2.16
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/R.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 R
+"PodWW Coe PodWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq $2,(y)   ;
+ movq $1,(y) | movq (x),%rax ;
+
+exists ([y]=2 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%r8,%rcx)
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test R Allowed
+Histogram (4 states)
+5002075:>1:rax=0; [y]=1;
+19998 :>1:rax=1; [y]=1;
+685   *>1:rax=0; [y]=2;
+4977242:>1:rax=1; [y]=2;
+Ok
+
+Witnesses
+Positive: 685, Negative: 9999315
+Condition exists ([y]=2 /\ 1:rax=0) is validated
+Hash=502cf8fc35004b1379e09dd7d9e9ff5f
+Cycle=Fre PodWW Coe PodWR
+Relax R Ok 
+Safe=Fre Coe PodWW PodWR
+Generator=diy7 (version 7.56+03)
+Com=Co Fr
+Orig=PodWW Coe PodWR Fre
+Observation R Sometimes 685 9999315
+Time R 1.92
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/R+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 R+mfence+po
+"MFencedWW Coe PodWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq $2,(y)   ;
+ mfence      | movq (x),%rax ;
+ movq $1,(y) |               ;
+
+exists ([y]=2 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%r8,%rcx)
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test R+mfence+po Allowed
+Histogram (4 states)
+5024244:>1:rax=0; [y]=1;
+163523:>1:rax=1; [y]=1;
+39    *>1:rax=0; [y]=2;
+4812194:>1:rax=1; [y]=2;
+Ok
+
+Witnesses
+Positive: 39, Negative: 9999961
+Condition exists ([y]=2 /\ 1:rax=0) is validated
+Hash=510d45186a4058716d1ce002ec94a2b6
+Cycle=Fre MFencedWW Coe PodWR
+Relax R+mfence+po Ok 
+Safe=Fre Coe PodWR MFencedWW
+Generator=diy7 (version 7.56+03)
+Com=Co Fr
+Orig=MFencedWW Coe PodWR Fre
+Observation R+mfence+po Sometimes 39 9999961
+Time R+mfence+po 1.99
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/SB+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 SB+mfences
+"MFencedWR Fre MFencedWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 0:rax=0;
+ uint64_t 1:rax=0;
+}
+ P0            | P1            ;
+ movq $1,(x)   | movq $1,(y)   ;
+ mfence        | mfence        ;
+ movq (y),%rax | movq (x),%rax ;
+
+exists (0:rax=0 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $1,(%r8,%rcx)
+	mfence
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rdi,%rcx)
+	mfence
+	movq (%r8,%rcx),%rax
+
+Test SB+mfences Allowed
+Histogram (3 states)
+4990807:>0:rax=1; 1:rax=0;
+4991323:>0:rax=0; 1:rax=1;
+17870 :>0:rax=1; 1:rax=1;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists (0:rax=0 /\ 1:rax=0) is NOT validated
+Hash=c2e204be8cc0bc10b118724b91cf7116
+Cycle=Fre MFencedWR Fre MFencedWR
+Relax SB+mfences No 
+Safe=Fre MFencedWR
+Generator=diy7 (version 7.56+03)
+Com=Fr Fr
+Orig=MFencedWR Fre MFencedWR Fre
+Observation SB+mfences Never 0 10000000
+Time SB+mfences 2.49
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/R+po+mfence.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 R+po+mfence
+"PodWW Coe MFencedWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq $2,(y)   ;
+ movq $1,(y) | mfence        ;
+             | movq (x),%rax ;
+
+exists ([y]=2 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%r8,%rcx)
+	mfence
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test R+po+mfence Allowed
+Histogram (3 states)
+4982893:>1:rax=0; [y]=1;
+18722 :>1:rax=1; [y]=1;
+4998385:>1:rax=1; [y]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([y]=2 /\ 1:rax=0) is NOT validated
+Hash=6c2f61b3a583dd069220ad50b6c27113
+Cycle=Fre PodWW Coe MFencedWR
+Relax R+po+mfence No 
+Safe=Fre Coe PodWW MFencedWR
+Generator=diy7 (version 7.56+03)
+Com=Co Fr
+Orig=PodWW Coe MFencedWR Fre
+Observation R+po+mfence Never 0 10000000
+Time R+po+mfence 2.27
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/R+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 R+mfences
+"MFencedWW Coe MFencedWR Fre"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+ uint64_t 1:rax=0;
+}
+ P0          | P1            ;
+ movq $1,(x) | movq $2,(y)   ;
+ mfence      | mfence        ;
+ movq $1,(y) | movq (x),%rax ;
+
+exists ([y]=2 /\ 1:rax=0)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%r8,%rcx)
+	mfence
+	movq (%rdi,%rcx),%rax
+#START _litmus_P0
+	movq $1,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test R+mfences Allowed
+Histogram (3 states)
+4990483:>1:rax=0; [y]=1;
+55981 :>1:rax=1; [y]=1;
+4953536:>1:rax=1; [y]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([y]=2 /\ 1:rax=0) is NOT validated
+Hash=8d12a72e34c53a275e6a64ea611c1654
+Cycle=Fre MFencedWW Coe MFencedWR
+Relax R+mfences No 
+Safe=Fre Coe MFencedWW MFencedWR
+Generator=diy7 (version 7.56+03)
+Com=Co Fr
+Orig=MFencedWW Coe MFencedWR Fre
+Observation R+mfences Never 0 10000000
+Time R+mfences 2.39
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/2+2W.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 2+2W
+"PodWW Coe PodWW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+}
+ P0          | P1          ;
+ movq $2,(x) | movq $2,(y) ;
+ movq $1,(y) | movq $1,(x) ;
+
+exists ([x]=2 /\ [y]=2)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%rdi,%rsi)
+	movq $1,(%rax,%rsi)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	movq $1,(%rdi,%rsi)
+
+Test 2+2W Allowed
+Histogram (3 states)
+15352 :>[x]=1; [y]=1;
+4992941:>[x]=2; [y]=1;
+4991707:>[x]=1; [y]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ [y]=2) is NOT validated
+Hash=84e0e8baa2e738bf0b3a12281081ee6d
+Cycle=Coe PodWW Coe PodWW
+Relax 2+2W No 
+Safe=Coe PodWW
+Generator=diy7 (version 7.56+03)
+Com=Co Co
+Orig=PodWW Coe PodWW Coe
+Observation 2+2W Never 0 10000000
+Time 2+2W 1.86
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/2+2W+mfence+po.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 2+2W+mfence+po
+"MFencedWW Coe PodWW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+}
+ P0          | P1          ;
+ movq $2,(x) | movq $2,(y) ;
+ mfence      | movq $1,(x) ;
+ movq $1,(y) |             ;
+
+exists ([x]=2 /\ [y]=2)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%rdi,%rsi)
+	movq $1,(%rax,%rsi)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test 2+2W+mfence+po Allowed
+Histogram (3 states)
+122477:>[x]=1; [y]=1;
+5011734:>[x]=2; [y]=1;
+4865789:>[x]=1; [y]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ [y]=2) is NOT validated
+Hash=7b521cb927a1e42622685a62ceda9dd2
+Cycle=Coe PodWW Coe MFencedWW
+Relax 2+2W+mfence+po No 
+Safe=Coe PodWW MFencedWW
+Generator=diy7 (version 7.56+03)
+Com=Co Co
+Orig=MFencedWW Coe PodWW Coe
+Observation 2+2W+mfence+po Never 0 10000000
+Time 2+2W+mfence+po 2.05
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for tests/2thread4edge/2+2W+mfences.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86_64 2+2W+mfences
+"MFencedWW Coe MFencedWW Coe"
+
+{
+ uint64_t y=0;
+ uint64_t x=0;
+}
+ P0          | P1          ;
+ movq $2,(x) | movq $2,(y) ;
+ mfence      | mfence      ;
+ movq $1,(y) | movq $1,(x) ;
+
+exists ([x]=2 /\ [y]=2)
+Generated assembler
+#START _litmus_P1
+	movq $2,(%rdi,%rsi)
+	mfence
+	movq $1,(%rax,%rsi)
+#START _litmus_P0
+	movq $2,(%rax,%rsi)
+	mfence
+	movq $1,(%rdi,%rsi)
+
+Test 2+2W+mfences Allowed
+Histogram (3 states)
+73079 :>[x]=1; [y]=1;
+4968301:>[x]=2; [y]=1;
+4958620:>[x]=1; [y]=2;
+No
+
+Witnesses
+Positive: 0, Negative: 10000000
+Condition exists ([x]=2 /\ [y]=2) is NOT validated
+Hash=87b7cc2e9406317e64d0594b98514375
+Cycle=Coe MFencedWW Coe MFencedWW
+Relax 2+2W+mfences No 
+Safe=Coe MFencedWW
+Generator=diy7 (version 7.56+03)
+Com=Co Co
+Orig=MFencedWW Coe MFencedWW Coe
+Observation 2+2W+mfences Never 0 10000000
+Time 2+2W+mfences 2.25
+
+Machine:THE-IMMORTAL-SUN
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 0
+cpu cores	: 6
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 0
+cpu cores	: 6
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 1
+cpu cores	: 6
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 1
+cpu cores	: 6
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 2
+cpu cores	: 6
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 2
+cpu cores	: 6
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 3
+cpu cores	: 6
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 3
+cpu cores	: 6
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 8
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 4
+cpu cores	: 6
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 9
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 4
+cpu cores	: 6
+apicid		: 9
+initial apicid	: 9
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 10
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 5
+cpu cores	: 6
+apicid		: 10
+initial apicid	: 10
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 11
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 154
+model name	: 12th Gen Intel(R) Core(TM) i7-1265U
+stepping	: 4
+microcode	: 0xffffffff
+cpu MHz		: 2688.011
+cache size	: 12288 KB
+physical id	: 0
+siblings	: 12
+core id		: 5
+cpu cores	: 6
+apicid		: 11
+initial apicid	: 11
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 28
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities
+vmx flags	: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb
+bogomips	: 5376.02
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.56+03
+Command line: litmus7 -r 100 tests/2thread4edge/@all
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 100
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */

@@ -1,0 +1,277 @@
+Test MP Allowed
+States 3
+1:rax=0; 1:rbx=0;
+1:rax=0; 1:rbx=1;
+1:rax=1; 1:rbx=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (1:rax=1 /\ 1:rbx=0)
+Observation MP Never 0 3
+Time MP 0.00
+Hash=85b3bbe7644055587f60c29f179db901
+
+Test MP+po+mfence Allowed
+States 3
+1:rax=0; 1:rbx=0;
+1:rax=0; 1:rbx=1;
+1:rax=1; 1:rbx=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (1:rax=1 /\ 1:rbx=0)
+Observation MP+po+mfence Never 0 3
+Time MP+po+mfence 0.00
+Hash=f73b1e137d2ab709bee700709612916c
+
+Test S Allowed
+States 3
+1:rax=0; [x]=1;
+1:rax=0; [x]=2;
+1:rax=1; [x]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ 1:rax=1)
+Observation S Never 0 3
+Time S 0.00
+Hash=1c50f4e5b4c27189faa27b138a5db1c1
+
+Test S+po+mfence Allowed
+States 3
+1:rax=0; [x]=1;
+1:rax=0; [x]=2;
+1:rax=1; [x]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ 1:rax=1)
+Observation S+po+mfence Never 0 3
+Time S+po+mfence 0.00
+Hash=4bc383ea322bd0a8d618c9665f7a4d16
+
+Test LB Allowed
+States 3
+0:rax=0; 1:rax=0;
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (0:rax=1 /\ 1:rax=1)
+Observation LB Never 0 3
+Time LB 0.00
+Hash=0efa418588af9f8fd32b7888161dac3d
+
+Test LB+mfence+po Allowed
+States 3
+0:rax=0; 1:rax=0;
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (0:rax=1 /\ 1:rax=1)
+Observation LB+mfence+po Never 0 3
+Time LB+mfence+po 0.00
+Hash=6d75d9f6162b12d7df31712b2fe4a458
+
+Test MP+mfence+po Allowed
+States 3
+1:rax=0; 1:rbx=0;
+1:rax=0; 1:rbx=1;
+1:rax=1; 1:rbx=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (1:rax=1 /\ 1:rbx=0)
+Observation MP+mfence+po Never 0 3
+Time MP+mfence+po 0.00
+Hash=805c9a5a74bb4704a63093affe7857dc
+
+Test MP+mfences Allowed
+States 3
+1:rax=0; 1:rbx=0;
+1:rax=0; 1:rbx=1;
+1:rax=1; 1:rbx=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (1:rax=1 /\ 1:rbx=0)
+Observation MP+mfences Never 0 3
+Time MP+mfences 0.00
+Hash=b2bc6712faaaaf6f68d7d331b7de13e3
+
+Test S+mfence+po Allowed
+States 3
+1:rax=0; [x]=1;
+1:rax=0; [x]=2;
+1:rax=1; [x]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ 1:rax=1)
+Observation S+mfence+po Never 0 3
+Time S+mfence+po 0.00
+Hash=4a1bd05bacd36cbd2977dbf455fe3c42
+
+Test S+mfences Allowed
+States 3
+1:rax=0; [x]=1;
+1:rax=0; [x]=2;
+1:rax=1; [x]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ 1:rax=1)
+Observation S+mfences Never 0 3
+Time S+mfences 0.00
+Hash=6236813024bb1b64783178c7dfd1daca
+
+Test LB+mfences Allowed
+States 3
+0:rax=0; 1:rax=0;
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (0:rax=1 /\ 1:rax=1)
+Observation LB+mfences Never 0 3
+Time LB+mfences 0.00
+Hash=9b8f78e01350a22506a298b32c897a75
+
+Test SB Allowed
+States 4
+0:rax=0; 1:rax=0;
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+0:rax=1; 1:rax=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:rax=0 /\ 1:rax=0)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=ac0b1f983ea53dfb4bc1a5cf3e493028
+
+Test SB+mfence+po Allowed
+States 4
+0:rax=0; 1:rax=0;
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+0:rax=1; 1:rax=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:rax=0 /\ 1:rax=0)
+Observation SB+mfence+po Sometimes 1 3
+Time SB+mfence+po 0.00
+Hash=80ce983ad5efe80390eaeef9faf09298
+
+Test R Allowed
+States 4
+1:rax=0; [y]=1;
+1:rax=0; [y]=2;
+1:rax=1; [y]=1;
+1:rax=1; [y]=2;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists ([y]=2 /\ 1:rax=0)
+Observation R Sometimes 1 3
+Time R 0.00
+Hash=502cf8fc35004b1379e09dd7d9e9ff5f
+
+Test R+mfence+po Allowed
+States 4
+1:rax=0; [y]=1;
+1:rax=0; [y]=2;
+1:rax=1; [y]=1;
+1:rax=1; [y]=2;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists ([y]=2 /\ 1:rax=0)
+Observation R+mfence+po Sometimes 1 3
+Time R+mfence+po 0.00
+Hash=510d45186a4058716d1ce002ec94a2b6
+
+Test SB+mfences Allowed
+States 3
+0:rax=0; 1:rax=1;
+0:rax=1; 1:rax=0;
+0:rax=1; 1:rax=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists (0:rax=0 /\ 1:rax=0)
+Observation SB+mfences Never 0 3
+Time SB+mfences 0.00
+Hash=c2e204be8cc0bc10b118724b91cf7116
+
+Test R+po+mfence Allowed
+States 3
+1:rax=0; [y]=1;
+1:rax=1; [y]=1;
+1:rax=1; [y]=2;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([y]=2 /\ 1:rax=0)
+Observation R+po+mfence Never 0 3
+Time R+po+mfence 0.00
+Hash=6c2f61b3a583dd069220ad50b6c27113
+
+Test R+mfences Allowed
+States 3
+1:rax=0; [y]=1;
+1:rax=1; [y]=1;
+1:rax=1; [y]=2;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([y]=2 /\ 1:rax=0)
+Observation R+mfences Never 0 3
+Time R+mfences 0.00
+Hash=8d12a72e34c53a275e6a64ea611c1654
+
+Test 2+2W Allowed
+States 3
+[x]=1; [y]=1;
+[x]=1; [y]=2;
+[x]=2; [y]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ [y]=2)
+Observation 2+2W Never 0 3
+Time 2+2W 0.00
+Hash=84e0e8baa2e738bf0b3a12281081ee6d
+
+Test 2+2W+mfence+po Allowed
+States 3
+[x]=1; [y]=1;
+[x]=1; [y]=2;
+[x]=2; [y]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ [y]=2)
+Observation 2+2W+mfence+po Never 0 3
+Time 2+2W+mfence+po 0.00
+Hash=7b521cb927a1e42622685a62ceda9dd2
+
+Test 2+2W+mfences Allowed
+States 3
+[x]=1; [y]=1;
+[x]=1; [y]=2;
+[x]=2; [y]=1;
+No
+Witnesses
+Positive: 0 Negative: 3
+Condition exists ([x]=2 /\ [y]=2)
+Observation 2+2W+mfences Never 0 3
+Time 2+2W+mfences 0.00
+Hash=87b7cc2e9406317e64d0594b98514375
+
